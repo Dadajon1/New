@@ -9,6 +9,7 @@ django-crispy-forms = "*"
 "django-bootstrap4" = "*"
 pillow = "*"
 django-ckeditor = "*"
+gunicorn = "*"
 
 [dev-packages]
 
