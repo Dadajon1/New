@@ -12,6 +12,10 @@
             {% if article.photo %}
                 <img class="card-img-top" src="{{ article.photo.url }}" alt="{{ article.title }}">
             {%  endif %}
+            {% if article.file %}
+               <p> <a href="{{ article.file.url }}">{{ article.file.url }}</a></p>
+            {% endif %}
+
             <div class="card-body">
                 {{ article.summary }}...<a href="{% url 'article_detail' article.pk  %}">batafsil</a>
             </div>

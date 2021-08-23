@@ -3,6 +3,9 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView,DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .models import Article
+from django.shortcuts import  render
+from django.core.files.storage import FileSystemStorage
+
 
 class Articleview(ListView):
     model = Article
@@ -36,7 +39,7 @@ class Articledeleteview(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
 class ArticleCreateView(LoginRequiredMixin,UserPassesTestMixin, CreateView):
     model = Article
     template_name = 'article_new.html'
-    fields = ('title','summary','body','photo','photo2')
+    fields = ('title','summary','body','photo','photo2','file')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
