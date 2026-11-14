@@ -113,11 +113,27 @@ async def faceswap_runpod(
                     break
                 last_error = "RunPod submit: no job id in response"
             else:
-                text = body.decode("utf-8", errors="replace")[:200]
-                if status in NON_RETRYABLE or status == 400:
-                    return target_b64, f"RunPod submit HTTP {status}: {text}"
-                last_error = f"RunPod submit HTTP {status}: {text}"
-                logger.warning("Retryable submit error", extra={"status": status, "attempt": attempt})
+                response_text = body.decode("utf-8", errors="replace")[:1000]
+
+                logger.warning(
+                    "RunPod submit error",
+                    extra={
+                        "status": status,
+                        "body": response_text,
+                        "attempt": attempt,
+                        "endpoint_id": endpoint_id,
+                    },
+                )
+
+                # HTTP 409 is a conflict. Retrying the same request blindly
+                # is unlikely to help and can create duplicate submissions
+                # if the original request was accepted but its response conflicted.
+                if status in NON_RETRYABLE or status in (400, 409):
+                    return target_b64, (
+                        f"RunPod submit HTTP {status}: {response_text}"
+                    )
+
+                last_error = f"RunPod submit HTTP {status}: {response_text}"
 
         except aiohttp.ClientSSLError as e:
             return target_b64, f"SSL error: {e}"
