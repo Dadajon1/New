@@ -692,12 +692,13 @@ async def process_one_page(
                 release_runpod_slot()
             logger.info("→ Stage 2: GPT", extra={"page": idx + 1})
             enhance_prompt = (
-                "TOP PRIORITY — HEAD SIZE: the girl's head in the FIRST image is usually TOO BIG. "
-                "Shrink the EXISTING head of the FIRST image uniformly (like scaling a photo layer) until the whole head (face + hair) is the same size, width and height as the girl's head in the SECOND image, "
-                "at the same position on the shoulders. Head-to-body ratio must equal the SECOND image (a small child's head, about one quarter to one fifth of her height). "
-                "Never keep an oversized head; never make it bigger than in the SECOND image. Body, arms and dress stay the same size. "
+                "TOP PRIORITY — HEAD SIZE: the girl's head must be EXACTLY the same size as the girl's head in the SECOND image (the original book page) — "
+                "same width, same height, same position on the shoulders. Compare the two and correct it in whichever direction is needed: "
+                "if the head in the FIRST image is bigger, scale it down; if it is smaller, scale it up. Never make the head smaller than in the SECOND image — "
+                "a tiny head on a big body is just as wrong as an oversized head. Keep the storybook proportions of the SECOND image (a young child's head, roughly one quarter of her height). "
+                "Body, arms and dress stay the same size. "
                 "Use the FIRST image as the base image. "
-                "FACE IDENTITY IS LOCKED: do NOT redraw, regenerate, restyle or beautify the face. The face must be the SAME face as in the FIRST image, only smaller: "
+                "FACE IDENTITY IS LOCKED: do NOT redraw, regenerate, restyle or beautify the face. The face must be the SAME face as in the FIRST image, only resized to the correct head size: "
                 "identical eye shape, eye size ratio, eye color, eyebrows, nose, mouth, lips, chin, face shape, cheeks, skin details and expression. "
                 "Never take the face from the SECOND image — from the SECOND image take ONLY the head size, neck and hair. "
                 "Do not modify facial identity in any way. "
@@ -706,7 +707,7 @@ async def process_one_page(
                 "The new hair must attach naturally to the head with correct hairline and skull structure. "
                 "No duplicate hair, floating hair, extra buns, detached strands or merged hairstyles. "
                 "Preserve original pose, dress, body, background, lighting and art style from the first image. "
-                "HEAD SIZE (repeat): final head size must match the SECOND image, not the first. "
+                "HEAD SIZE (repeat): final head size must match the SECOND image exactly — not bigger and not smaller. "
                 "Neck straight and natural as in the second image, correct length, no bend, twist or tilt; shoulders as in the second image. "
                 "The hair must be long, exactly as in the second image, never short. "
                 "SKIN TONE: natural, soft, light skin matching the child's real skin tone and the color grading of the original page; no orange, red, tanned, sunburnt, dark or over-saturated face, no harsh contrast or burnt shadows; face and neck the same tone as the arms. "
